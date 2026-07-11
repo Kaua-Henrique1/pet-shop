@@ -24,29 +24,8 @@ namespace PetShopManager.Models
         public string Cpf { get; set; } = string.Empty;
 
         [Required]
-        [StringLength(9)]
-        public string CEP { get; set; } = string.Empty;
-
-        [Required]
-        [StringLength(150)]
-        public string Logradouro { get; set; } = string.Empty;
-
-        [Required]
-        [StringLength(10)]
-        public string Numero { get; set; } = string.Empty;
-
-        [Required]
-        [StringLength(50)]
-        public string Bairro { get; set; } = string.Empty;
-
-        [Required]
-        [StringLength(50)]
-        public string Cidade { get; set; } = string.Empty;
-
-        [Required]
-        [StringLength(2)]
-        public string UF { get; set; } = string.Empty;
-
+        public Endereco Endereco { get; set; } = new Endereco();
+        
         [JsonIgnore]
         public ICollection<Animal> Animais { get; set; } = new List<Animal>();
     }
