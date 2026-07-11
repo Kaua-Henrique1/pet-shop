@@ -1,0 +1,41 @@
+# ====================================================================
+# .NET (Backend)
+# ====================================================================
+bin/
+obj/
+*.suo
+*.user
+*.sln.docstates
+out/
+appsettings.Development.json
+
+# Arquivos de log e banco de dados local temporário
+*.log
+*.sqlite
+*.db
+.vs/
+.vscode/
+
+# ====================================================================
+# Angular / Node (Frontend)
+# ====================================================================
+# Dependências baixadas do npm
+node_modules/
+
+# Pastas de build/geração de arquivos finais
+/dist
+/tmp
+/out-tsc
+/.bazel
+/.angular
+
+# Arquivos de log do NPM
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Configurações locais de IDE e ambiente
+.env
+.env.local
+.DS_Store
