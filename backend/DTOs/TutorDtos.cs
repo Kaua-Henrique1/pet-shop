@@ -35,8 +35,12 @@ namespace PetShopManager.DTOs
         [StringLength(100)]
         public string Nome { get; set; } = string.Empty;
 
+        /// <summary>
+        /// CPF do tutor. Deve ser único e seguir o formato padrão com pontos e hífen.
+        /// </summary>
+        /// <example>123.456.789-00</example>
         [Required(ErrorMessage = "O CPF é obrigatório.")]
-        [StringLength(14)]
+        [RegularExpression(@"^\d{3}\.\d{3}\.\d{3}-\d{2}$", ErrorMessage = "O CPF deve seguir o formato 000.000.000-00")]
         public string Cpf { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "O telefone é obrigatório.")]

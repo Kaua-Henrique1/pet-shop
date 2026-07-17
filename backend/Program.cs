@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PetShopManager.Data;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,21 +44,36 @@ builder.Services.AddControllers();
 
 // 4. Configuração do Swagger com suporte a Token JWT
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
+builder.Services.AddSwaggerGen(options =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "PetShop API", Version = "v1" });
-    
-    // Adiciona o campo "Authorize" (cadeado) na interface do Swagger
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    options.MapType<PetShopManager.Models.EspecieEnum>(() => new OpenApiSchema 
+    { 
+        Type = "integer",
+        Format = "int32",
+        Description = "Espécie do animal: 1 = Cão, 2 = Gato, 3 = Pássaro, 4 = Réptil, 5 = Roedor, 6 = Outros"
+    });
+
+    options.SwaggerDoc("v1", new OpenApiInfo 
+    { 
+        Title = "PetShop API", 
+        Version = "v1",
+        Description = "Documentação oficial das rotas do sistema PetShopManager."
+    });
+
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
+
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Description = "JWT Authorization header usando o esquema Bearer. Exemplo: \"Bearer {token}\"",
+        Description = "Insira o token JWT desta forma: Bearer SEU_TOKEN_AQUI",
         Name = "Authorization",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.ApiKey,
         Scheme = "Bearer"
     });
 
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
             new OpenApiSecurityScheme

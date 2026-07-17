@@ -23,6 +23,20 @@ namespace PetShopManager.Controllers
             _configuration = configuration;
         }
 
+        /// <summary>
+        /// Cadastra um novo usuário no sistema.
+        /// </summary>
+        /// <remarks>
+        /// Exemplo de requisição:
+        /// 
+        ///     POST /api/auth/register
+        ///     {
+        ///        "login": "usuarioExemplo",
+        ///        "senha": "senhaSegura123"
+        ///     }
+        /// </remarks>
+        /// <response code="200">Usuário criado com sucesso.</response>
+        /// <response code="400">Se o login já estiver em uso.</response>
         // POST: api/auth/register
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto dto)
@@ -48,6 +62,12 @@ namespace PetShopManager.Controllers
             return Ok(new { message = "Usuário registrado com sucesso!" });
         }
 
+        /// <summary>
+        /// Autentica um usuário e gera o Token JWT.
+        /// </summary>
+        /// <param name="dto">Objeto contendo o Login e a Senha do usuário.</param>
+        /// <response code="200">Login bem-sucedido. Retorna o token JWT e os dados do usuário.</response>
+        /// <response code="401">Usuário ou senha inválidos.</response>
         // POST: api/auth/login
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto dto)

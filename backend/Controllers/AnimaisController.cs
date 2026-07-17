@@ -19,6 +19,11 @@ namespace PetShopManager.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Retorna a lista de todos os animais cadastrados, incluindo os dados dos seus respectivos tutores.
+        /// </summary>
+        /// <response code="200">Lista de animais retornada com sucesso.</response>
+        /// <response code="401">Acesso negado. Token não fornecido ou inválido.</response>
         // GET: api/animais
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Animal>>> GetAnimais()
@@ -27,7 +32,14 @@ namespace PetShopManager.Controllers
             return await _context.Animais.Include(a => a.Tutor).ToListAsync();
         }
 
-        // GET: api/animais/5
+        /// <summary>
+        /// Busca um animal específico pelo seu ID.
+        /// </summary>
+        /// <param name="id">ID do animal desejado.</param>
+        /// <response code="200">Retorna os detalhes do animal.</response>
+        /// <response code="401">Acesso negado. Token não fornecido ou inválido.</response>
+        /// <response code="404">Animal não encontrado no banco de dados.</response>
+        // GET: api/animais/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<Animal>> GetAnimal(int id)
         {
@@ -39,6 +51,13 @@ namespace PetShopManager.Controllers
             return animal;
         }
 
+        /// <summary>
+        /// Cadastra um novo animal e o vincula a um tutor existente.
+        /// </summary>
+        /// <param name="dto">Objeto contendo os dados do animal e o ID do seu tutor.</param>
+        /// <response code="201">Animal cadastrado com sucesso.</response>
+        /// <response code="400">Dados inválidos ou o Tutor informado não existe.</response>
+        /// <response code="401">Acesso negado. Token não fornecido ou inválido.</response>
         // POST: api/animais
         [HttpPost]
         public async Task<ActionResult<Animal>> PostAnimal([FromBody] CreateAnimalDto dto)
@@ -67,7 +86,16 @@ namespace PetShopManager.Controllers
             return CreatedAtAction(nameof(GetAnimal), new { id = animal.Id }, animal);
         }
 
-        // PUT: api/animais/5
+        /// <summary>
+        /// Atualiza os dados de um animal existente no sistema.
+        /// </summary>
+        /// <param name="id">ID do animal que será atualizado.</param>
+        /// <param name="dto">Objeto contendo os novos dados do animal.</param>
+        /// <response code="200">Dados do animal atualizados com sucesso.</response>
+        /// <response code="400">Dados inválidos ou novo Tutor informado não existe.</response>
+        /// <response code="401">Acesso negado. Token não fornecido ou inválido.</response>
+        /// <response code="404">Animal não encontrado no banco de dados.</response>
+        // PUT: api/animais/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAnimal(int id, [FromBody] CreateAnimalDto dto)
         {
@@ -106,7 +134,14 @@ namespace PetShopManager.Controllers
             return Ok(new { message = "Dados do animal atualizados com sucesso!", animal });
         }
 
-        // DELETE: api/animais/5
+        /// <summary>
+        /// Remove um animal do sistema pelo seu ID.
+        /// </summary>
+        /// <param name="id">ID do animal que será removido.</param>
+        /// <response code="200">Animal removido com sucesso.</response>
+        /// <response code="401">Acesso negado. Token não fornecido ou inválido.</response>
+        /// <response code="404">Animal não encontrado no banco de dados.</response>
+        // DELETE: api/animais/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAnimal(int id)
         {
