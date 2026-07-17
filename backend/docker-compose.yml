@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  petshop-db:
+    image: mysql:8.0
+    container_name: petshop-mysql-container
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'PetShopDb'
+      MYSQL_ROOT_PASSWORD: 'SuaSenhaSuperSegura123!'
+    ports:
+      - '3306:3306'
+    volumes:
+      - petshop-mysql-data:/var/lib/mysql
+
+volumes:
+  petshop-mysql-data:
