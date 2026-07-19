@@ -1,0 +1,117 @@
+<div class="container">
+  <h2>Gerenciamento de Tutores</h2>
+  
+  <!-- LISTAGEM -->
+  <div *ngIf="!exibindoFormulario">
+    
+    <!-- Botões de Ação da Listagem -->
+    <div style="display: flex; margin-bottom: 20px; align-items: center;">
+      
+      <div style="display: flex; gap: 16px;">
+        <button mat-raised-button color="primary" (click)="novoTutor()">
+          <mat-icon>add</mat-icon> Novo Tutor
+        </button>
+        <button mat-raised-button color="accent" routerLink="/animais">
+          <mat-icon>pets</mat-icon> Gerenciar Pets
+        </button>
+      </div>
+
+      <!-- Empurra o botão de sair para o canto direito -->
+      <div style="margin-left: auto;">
+        <button mat-raised-button color="warn" (click)="logout()">
+          <mat-icon>logout</mat-icon> Sair
+        </button>
+      </div>
+
+    </div>
+
+    <table mat-table [dataSource]="tutores" class="mat-elevation-z8">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let t"> {{t.id}} </td>
+      </ng-container>
+      <ng-container matColumnDef="nome">
+        <th mat-header-cell *matHeaderCellDef> Nome </th>
+        <td mat-cell *matCellDef="let t"> {{t.nome}} </td>
+      </ng-container>
+      <ng-container matColumnDef="cpf">
+        <th mat-header-cell *matHeaderCellDef> CPF </th>
+        <td mat-cell *matCellDef="let t"> {{t.cpf}} </td>
+      </ng-container>
+      <ng-container matColumnDef="acoes">
+        <th mat-header-cell *matHeaderCellDef> Ações </th>
+        <td mat-cell *matCellDef="let t">
+          <button mat-icon-button color="accent" (click)="editarTutor(t)"><mat-icon>edit</mat-icon></button>
+          <button mat-icon-button color="warn" (click)="removerTutor(t.id)"><mat-icon>delete</mat-icon></button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="['id','nome','cpf','acoes']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['id','nome','cpf','acoes'];"></tr>
+    </table>
+  </div>
+  
+  <!-- FORMULÁRIO -->
+  <div *ngIf="exibindoFormulario">
+    <form [formGroup]="tutorForm" (ngSubmit)="salvar()" class="form-container">
+      <h3>{{ editando ? 'Editar Tutor' : 'Novo Tutor' }}</h3>
+      
+      <div class="form-grid">
+        <div>
+          <label>Nome:</label>
+          <input type="text" formControlName="nome" placeholder="Nome do tutor">
+        </div>
+        <div>
+          <label>CPF:</label>
+          <input type="text" formControlName="cpf" placeholder="Somente números">
+        </div>
+        <div>
+          <label>Telefone:</label>
+          <input type="text" formControlName="telefone">
+        </div>
+        <div>
+          <label>Email:</label>
+          <input type="email" formControlName="email">
+        </div>
+      </div>
+      
+      <fieldset formGroupName="endereco" class="fieldset-endereco">
+        <legend>Endereço</legend>
+        <div class="form-grid">
+          <div>
+            <label>CEP:</label>
+            <input type="text" formControlName="cep" (blur)="buscarCepTutor()">
+          </div>
+          <div>
+            <label>Logradouro:</label>
+            <input type="text" formControlName="logradouro" readonly>
+          </div>
+          <div>
+            <label>Número:</label>
+            <input type="text" formControlName="numero">
+          </div>
+          <div>
+            <label>Bairro:</label>
+            <input type="text" formControlName="bairro" readonly>
+          </div>
+          <div>
+            <label>Cidade:</label>
+            <input type="text" formControlName="cidade" readonly>
+          </div>
+          <div>
+            <label>UF:</label>
+            <input type="text" formControlName="uf" readonly>
+          </div>
+        </div>
+      </fieldset>
+      
+      <div class="acoes-form">
+        <button mat-raised-button color="primary" type="submit">
+          <mat-icon>save</mat-icon> Salvar
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="exibindoFormulario=false">
+          <mat-icon>cancel</mat-icon> Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

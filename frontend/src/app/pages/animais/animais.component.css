@@ -1,0 +1,117 @@
+/* Container principal da tela */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+h2 {
+  text-align: center;
+  color: #3f51b5; /* Cor primária padrão do Angular Material */
+  margin-bottom: 32px;
+}
+
+/* Estilo de "Cartão" para o formulário */
+.form-container {
+  background-color: #ffffff;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h3 {
+  margin-top: 0;
+  color: #333;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 8px;
+  margin-bottom: 24px;
+}
+
+/* Sistema de Grid responsivo para alinhar os inputs */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.form-grid label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #555;
+  font-size: 14px;
+}
+
+.form-grid input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+.form-grid input:focus {
+  outline: none;
+  border-color: #3f51b5;
+  box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.2);
+}
+
+/* Identidade visual para os campos preenchidos pelo ViaCEP que não podem ser alterados */
+.form-grid input[readonly] {
+  background-color: #f5f5f5;
+  color: #888;
+  cursor: not-allowed;
+  border-color: #e0e0e0;
+}
+
+/* Grupo de campos do endereço */
+.fieldset-endereco {
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 20px;
+  margin-top: 24px;
+  background-color: #fafafa;
+}
+
+.fieldset-endereco legend {
+  font-weight: 500;
+  color: #3f51b5;
+  padding: 0 8px;
+  font-size: 14px;
+}
+
+/* Alinhamento dos botões do formulário */
+.acoes-form {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  justify-content: flex-end;
+}
+
+.divisor {
+  border: 0;
+  border-top: 1px solid #e0e0e0;
+  margin: 40px 0;
+}
+
+/* Ajustes para a tabela do Angular Material ocupar a tela toda */
+table {
+  width: 100%;
+  margin-top: 16px;
+}
+
+th {
+  font-weight: 600 !important;
+  color: #333 !important;
+}
+
+.opcional {
+  font-size: 12px;
+  color: #888;
+  font-weight: normal;
+  margin-left: 4px;
+}

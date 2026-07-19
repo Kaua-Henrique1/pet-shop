@@ -1,42 +1,50 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { UsuarioLogin, LoginResponse } from '../models/login';
+import { API_BASE } from '../config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  // Usamos o inject do Angular moderno para trazer o HttpClient
-  private http = inject(HttpClient);
-  
-  // Essa é a URL base do backend do seu amigo (porta 5036, confirme se é essa mesma)
-  private apiUrl = 'http://localhost:5036/api/auth'; 
+  private apiUrl = `${API_BASE}/Auth`;
 
-  constructor() {}
+  constructor(private http: HttpClient) { }
 
-  // Função que envia o usuário e senha para a API
-  login(credenciais: UsuarioLogin): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credenciais).pipe(
-      tap(response => {
-        // Se a API responder com sucesso, pegamos o Token e salvamos no LocalStorage
-        localStorage.setItem('token', response.token);
+  register(credenciais: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, credenciais);
+  }
+
+  private getStorage(): Storage | null {
+    return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined'
+      ? window.localStorage
+      : null;
+  }
+
+  login(credenciais: any): Observable<any> {
+    // Envia o { login, senha } para o endpoint
+    return this.http.post(`${this.apiUrl}/login`, credenciais).pipe(
+      tap((resposta: any) => {
+        const token = resposta?.token ?? resposta;
+        const storage = this.getStorage();
+        if (storage && token) {
+          storage.setItem('token', token);
+        }
       })
     );
   }
 
-  // Pega o token salvo para podermos mandar nas rotas trancadas
   getToken(): string | null {
-    return localStorage.getItem('token');
+    const storage = this.getStorage();
+    return storage ? storage.getItem('token') : null;
   }
 
-  // Verifica se o usuário tem um token salvo (se está logado)
   isLoggedIn(): boolean {
-    return this.getToken() !== null;
+    return !!this.getToken();
   }
 
-  // Apaga o token ao sair do sistema
   logout(): void {
-    localStorage.removeItem('token');
+    const storage = this.getStorage();
+    storage?.removeItem('token');
   }
 }

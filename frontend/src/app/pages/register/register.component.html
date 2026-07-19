@@ -1,0 +1,29 @@
+<div class="register-container">
+  <div class="register-card">
+    <h2>Registrar Novo Usuário</h2>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="login">Login</label>
+        <input id="login" type="text" formControlName="login" placeholder="Escolha um login">
+      </div>
+
+      <div class="form-group">
+        <label for="senha">Senha</label>
+        <input id="senha" type="password" formControlName="senha" placeholder="Senha (mín. 6 caracteres)">
+      </div>
+
+      <div class="form-group">
+        <label for="senhaConfirm">Confirmar Senha</label>
+        <input id="senhaConfirm" type="password" formControlName="senhaConfirm" placeholder="Repita a senha">
+      </div>
+
+      <div *ngIf="registerForm.errors?.['mismatch']" class="error-message">As senhas não coincidem.</div>
+
+      <div class="acoes">
+        <button type="submit" [disabled]="registerForm.invalid || loading">Registrar</button>
+        <button type="button" (click)="goToLogin()">Voltar</button>
+      </div>
+    </form>
+  </div>
+</div>
